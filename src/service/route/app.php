@@ -10,7 +10,15 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-Route::miss(function(){
+
+Route::miss(function () {
+    $module = explode('/', request()->pathinfo())[0] ?? '';
+
+    //显示后台管理模板
+    if ($module === 'admin') {
+        die(require app()->getRootPath() . 'public' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'index.html');
+    }
+
     return redirect('/admin');
 });
 
