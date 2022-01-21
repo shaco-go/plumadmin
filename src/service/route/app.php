@@ -11,6 +11,6 @@
 use think\facade\Route;
 
 Route::miss(function(){
-    return 'miss';
+    return redirect('/admin');
 });
 
