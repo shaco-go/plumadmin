@@ -49,7 +49,6 @@ export default {
             if (state.activeTabs.length > 1) {
                 //关闭当前tabs
                 const index = getTabsIndex(path, state.activeTabs)
-                console.log(index)
                 if (index !== -1) {
                     let a = state.activeTabs.splice(index, 1)
                     //当前tabs,变成最后一个

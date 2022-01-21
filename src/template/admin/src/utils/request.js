@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {Message, MessageBox} from 'element-ui'
+import {Message} from 'element-ui'
 import {clearAuth, getRefreshToken, getToken, isRefreshTokenExpire, isTokenExpire, setAuth} from '@/utils/token'
 import {debug, requestUrl} from '@/config'
 
@@ -54,8 +54,7 @@ service.interceptors.request.use(config => {
   }
   return config
 }, error => {
-  return new Promise(() => {
-  })
+  return Promise.reject(error)
 })
 
 // 响应拦截
@@ -68,18 +67,15 @@ service.interceptors.response.use(response => {
     clearAuth()
     //登录
     location.href = '/admin/login'
-    return new Promise(() => {
-    })
+    return Promise.reject(data)
   } else if (data.code === 403) {
     // 跳转403页面
     location.href = '/admin/403'
-    return new Promise(() => {
-    })
+    return Promise.reject(data)
   } else if (data.code === 500) {
     //跳转到500页面
     location.href = '/admin/500'
-    return new Promise(() => {
-    })
+    return Promise.reject(data)
   } else {
     // 如果没有显式定义custom的toast参数为false的话，默认对报错进行toast弹出提示
     if (response.config.toast !== false) {
@@ -89,10 +85,8 @@ service.interceptors.response.use(response => {
   }
 }, error => {
   //跳转到服务器错误500
-  MessageBox.alert('服务器错误,请稍后访问!', {type: 'error', title: '提示'})
   location.href = '/admin/500'
-  return new Promise(() => {
-  })
+  return Promise.reject(error)
 })
 
 export default service

@@ -70,7 +70,6 @@ export default {
                 hidden: false,
                 redirect: '/admin/404'
             }]
-            console.log('路由表', routes)
             routes.forEach(item => {
                 router.addRoute(item)
             })

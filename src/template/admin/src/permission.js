@@ -29,7 +29,7 @@ router.beforeEach(async (to, from, next) => {
             NProgress.done()
         } else {
             // 正常跳转
-            if (store.getters.user) {
+            if (store.getters.user || whiteList.indexOf(to.path) !== -1) {
                 next()
             } else {
                 // 用户信息不存在,获取用户信息

@@ -20,14 +20,12 @@ export default {
     insideValue: {
       immediate: true,
       handler(val) {
-        console.log('cehsi')
         this.$emit('input', val)
       }
     },
     value: {
       immediate: true,
       handler(val) {
-        console.log('cehsi')
         this.insideValue = val
       }
     }

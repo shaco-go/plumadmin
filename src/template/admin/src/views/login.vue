@@ -116,6 +116,7 @@ export default {
       font-weight: 500;
 
       .login-button {
+
         width: 400px;
         height: 60px;
         background: linear-gradient(#5566e4, #3c50e0);
@@ -142,6 +143,7 @@ export default {
 
         input {
           width: 400px;
+          box-sizing: border-box;
           height: 60px;
           line-height: 60px;
           color: #4d5a7e;
