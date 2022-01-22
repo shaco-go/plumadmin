@@ -17,7 +17,8 @@ class SystemMenus extends Seeder
         $rule = $this->table('system_menus');
         if ($rule->exists()) {
             $this->execute('TRUNCATE TABLE system_menus');
-            $data = include_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'system_menus.json';
+            $data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'system_menus.json');
+            $data = json_decode($data, true);
             $rule->insert(json_decode($data, true))
                 ->save();
         }
