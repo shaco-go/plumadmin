@@ -6,6 +6,7 @@ use app\adminapi\Controller;
 use app\adminapi\service\system\AdminService;
 use app\adminapi\validate\system\AdminValidate;
 use app\model\system\SystemMenusModel;
+use plum\exception\FailException;
 use plum\utils\Arr;
 use plum\utils\Attachment;
 
@@ -74,6 +75,10 @@ class Userinfo extends Controller
             if ($v['type'] === SystemMenusModel::TYPE_PERMISSION) {
                 $permissions[] = $v['mark'];
             }
+        }
+        //如果菜单和路由都没有的话,那么提示添加菜单
+        if(empty($menus['list']) || empty($routes['list'])){
+            throw new FailException('用户无路由和菜单,请添加后登录!');
         }
         //树状化
         $menus['tree'] = Arr::tree($menus['list']);
