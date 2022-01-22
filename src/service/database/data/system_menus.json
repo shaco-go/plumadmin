@@ -128,22 +128,6 @@
     "sort": 200
   },
   {
-    "id": 200,
-    "title": "GITHUB",
-    "name": "",
-    "mark": "",
-    "url": "https://github.com/plum429/plumadmin.git",
-    "parent_id": 0,
-    "type": 1,
-    "method": "[]",
-    "routes": "",
-    "component": "",
-    "icon": "github",
-    "menu_hidden": 0,
-    "keep_alive": 1,
-    "sort": 200
-  },
-  {
     "id": 203,
     "title": "内容管理",
     "name": "",
