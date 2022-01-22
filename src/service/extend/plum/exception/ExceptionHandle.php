@@ -43,8 +43,8 @@ class ExceptionHandle extends Handle
                 'method'  => request()->method(),
                 'ip'      => request()->ip(),
                 'trace'   => $exception->getTraceAsString(),
-                'header' => var_export(request()->header(), true),
-                'param'  => var_export(request()->param(), true)
+                'header'  => var_export(request()->header(), true),
+                'param'   => var_export(request()->param(), true)
             ];
             try {
                 $this->app->log->record($data, 'error');
@@ -78,7 +78,9 @@ class ExceptionHandle extends Handle
             if (!$debug) {
                 $data['message'] = 'SERVER FAIL';
             } else {
-                $data['message'] = $data['message'] . " [{$e->getFile()}] {$e->getLine()}";
+                //调试模式下code为400
+                $data['code'] = 400;
+                $data['message'] = "服务异常:" . $data['message'] . " [{$e->getFile()}] {$e->getLine()}";
             }
         }
         return json($data);
