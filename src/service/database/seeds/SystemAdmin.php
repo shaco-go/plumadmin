@@ -23,10 +23,7 @@ class SystemAdmin extends Seeder
                     'password'=>password_hash('123456',PASSWORD_DEFAULT),
                     'nickname'=>'管理员',
                     'avatar'=>'',
-                    'is_super'=>1,
-                    'create_time'=>date('Y-m-d H:i:s'),
-                    'update_time'=>null,
-                    'delete_time'=>null
+                    'is_super'=>1
                 ]
             ])->save();
         }
