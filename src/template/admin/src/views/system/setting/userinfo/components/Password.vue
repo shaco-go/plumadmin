@@ -6,7 +6,7 @@
     <el-form-item label="新密码" prop="new_password" :rules="{required:true,message:'请输入新密码'}">
       <el-input clearable show-password placeholder="请输入新密码" v-model="form.new_password"/>
     </el-form-item>
-    <el-form-item label="确认密码" prop="old_password" :rules="{required:true,message:'请输入确认密码'}">
+    <el-form-item label="确认密码" prop="confirm_password" :rules="{required:true,message:'请输入确认密码'}">
       <el-input clearable show-password placeholder="请输入确认密码" v-model="form.confirm_password"/>
     </el-form-item>
     <el-form-item>
