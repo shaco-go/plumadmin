@@ -12,6 +12,6 @@
 </p >
 现在文档还没有完善,有问题可以加微信或者qq群交流
  <div>
-      <img style="width: 200px" src="http://file.huamzl.wang/tuchuang/20221221730/nx70zvz3r5_39b0baf031ba19e0c9dd73403b8ac45.jpg" />
-      <img style="width: 200px" src="http://file.huamzl.wang/tuchuang/20221221800/n5esxpc7kh_1642845652675.png" />
+      <img width="200px" src="http://file.huamzl.wang/tuchuang/20221221730/nx70zvz3r5_39b0baf031ba19e0c9dd73403b8ac45.jpg" />
+      <img width="200px" src="http://file.huamzl.wang/tuchuang/20221221800/n5esxpc7kh_1642845652675.png" />
 </div>
