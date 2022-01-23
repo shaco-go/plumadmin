@@ -30,9 +30,9 @@ export default {
   },
   methods: {
     handleSubmit() {
-      this.loading = true
       this.$refs.form.validate(valid => {
         if (valid) {
+          this.loading = true
           this.$http.post('userinfo/password/update', this.form)
               .then(data => {
                 this.$message.success(data.message)
