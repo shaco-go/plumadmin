@@ -41,7 +41,7 @@ class Token
      */
     private static function getKey($token, $channel): string
     {
-        return env('cache.prefix') . "_{$channel}_{$token}";
+        return "token_{$channel}_{$token}";
     }
 
     /**

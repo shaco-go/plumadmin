@@ -129,7 +129,7 @@ abstract class BaseTimer
     private function getKey()
     {
         $name = $this->name();
-        return env('cache.prefix','').'_'."timer_{$name}_lock";
+        return "timer_{$name}_lock";
     }
 
     abstract public function handler();

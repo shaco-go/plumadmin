@@ -11,6 +11,8 @@ class SystemConfigModel extends BaseModel
     protected $name = 'system_config';
     protected $type = ['value' => 'json'];
 
+    const  CACHE_KEY = 'system_config';
+
     const ALLOW_FIELDS = [
         'filesystem',
         'filesystem_valid',
@@ -80,12 +82,11 @@ class SystemConfigModel extends BaseModel
      */
     public static function getAll()
     {
-        $key = env('cache.prefix') . "_system_config";
         //获取缓存数据
-        if (!$value = cache($key)) {
+        if (!$value = cache(self::CACHE_KEY)) {
             $value = self::getDatabaseAll();
             //保存两小时
-            cache($key, $value, 7200);
+            cache(self::CACHE_KEY, $value, 7200);
         }
         return array_column($value,'value','key');
     }
@@ -98,7 +99,6 @@ class SystemConfigModel extends BaseModel
      */
     public static function cacheClear()
     {
-        $key = env('cache.prefix') . "_system_config";
-        cache($key, null);
+        cache(self::CACHE_KEY, null);
     }
 }

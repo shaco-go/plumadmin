@@ -13,8 +13,8 @@ abstract class BaseQueue
     public function send($data, $delay = 0)
     {
         $redis = Cache::store('redis')->handler();
-        $queue_waiting = env('cache.prefix', '') . '_queue-delayed';
-        $queue_delay = env('cache.prefix', '') . '_queue-failed';
+        $queue_waiting =  '_queue-delayed';
+        $queue_delay = '_queue-failed';
         $now = time();
         $package_str = json_encode([
             'id'       => rand(),

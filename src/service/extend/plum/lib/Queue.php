@@ -18,7 +18,6 @@ use RuntimeException;
 use think\facade\Log;
 use Workerman\Lib\Timer;
 use Workerman\Redis\Client as Redis;
-use function env;
 
 /**
  * Class Client
@@ -29,17 +28,17 @@ class Queue
     /**
      * Queue waiting for consumption
      */
-    private $queueWaiting = 'queue-waiting';
+    const QUEUE_WAITING = '{redis-queue}-waiting';
 
     /**
      * Queue with delayed consumption
      */
-    private $queueDelayed = 'queue-delayed';
+    const QUEUE_DELAYED = '{redis-queue}-delayed';
 
     /**
      * Queue with consumption failure
      */
-    private $queueFailed = 'queue-failed';
+    const QUEUE_FAILED = '{redis-queue}-failed';
 
     /**
      * @var Redis
@@ -85,9 +84,6 @@ class Queue
             $this->_redisSend->select($options['db']);
         }
         $this->_options = array_merge($this->_options, $options);
-        $this->queueWaiting = env('cache.prefix', '') . '_' . $this->queueWaiting;
-        $this->queueDelayed = env('cache.prefix', '') . '_' . $this->queueDelayed;
-        $this->queueFailed = env('cache.prefix', '') . '_' . $this->queueFailed;
     }
 
     /**
@@ -120,16 +116,16 @@ class Queue
                 $cb((bool)$ret);
             };
             if ($delay == 0) {
-                $this->_redisSend->lPush($this->queueWaiting . $queue, $package_str, $cb);
+                $this->_redisSend->lPush(static::QUEUE_WAITING . $queue, $package_str, $cb);
             } else {
-                $this->_redisSend->zAdd($this->queueDelayed, $now + $delay, $package_str, $cb);
+                $this->_redisSend->zAdd(static::QUEUE_DELAYED, $now + $delay, $package_str, $cb);
             }
             return;
         }
         if ($delay == 0) {
-            $this->_redisSend->lPush($this->queueWaiting . $queue, $package_str);
+            $this->_redisSend->lPush(static::QUEUE_WAITING . $queue, $package_str);
         } else {
-            $this->_redisSend->zAdd($this->queueDelayed, $now + $delay, $package_str);
+            $this->_redisSend->zAdd(static::QUEUE_DELAYED, $now + $delay, $package_str);
         }
     }
 
@@ -143,7 +139,7 @@ class Queue
     {
         $queue = (array)$queue;
         foreach ($queue as $q) {
-            $redis_key = $this->queueWaiting . $q;
+            $redis_key = static::QUEUE_WAITING . $q;
             $this->_subscribeQueues[$redis_key] = $callback;
         }
         $this->pull();
@@ -158,8 +154,8 @@ class Queue
     public function unsubscribe($queue)
     {
         $queue = (array)$queue;
-        foreach ($queue as $q) {
-            $redis_key = $this->queueWaiting . $q;
+        foreach($queue as $q) {
+            $redis_key = static::QUEUE_WAITING . $q;
             unset($this->_subscribeQueues[$redis_key]);
         }
     }
@@ -176,21 +172,21 @@ class Queue
         $retry_timer = Timer::add(1, function () {
             $now = time();
             $options = ['LIMIT', 0, 128];
-            $this->_redisSend->zrevrangebyscore($this->queueDelayed, $now, '-inf', $options, function ($items) {
+            $this->_redisSend->zrevrangebyscore(static::QUEUE_DELAYED, $now, '-inf', $options, function($items){
                 if ($items === false) {
                     throw new RuntimeException($this->_redisSend->error());
                 }
                 foreach ($items as $package_str) {
-                    $this->_redisSend->zRem($this->queueDelayed, $package_str, function ($result) use ($package_str) {
+                    $this->_redisSend->zRem(static::QUEUE_DELAYED, $package_str, function ($result) use ($package_str) {
                         if ($result !== 1) {
                             return;
                         }
                         $package = \json_decode($package_str, true);
                         if (!$package) {
-                            $this->_redisSend->lPush($this->queueFailed, $package_str);
+                            $this->_redisSend->lPush(static::QUEUE_FAILED , $package_str);
                             return;
                         }
-                        $this->_redisSend->lPush($this->queueWaiting . $package['queue'], $package_str);
+                        $this->_redisSend->lPush(static::QUEUE_WAITING . $package['queue'], $package_str);
                     });
                 }
             });
@@ -206,14 +202,14 @@ class Queue
         if (!$this->_subscribeQueues || $this->_redisSubscribe->brPoping) {
             return;
         }
-        $cb = function ($data) use (&$cb) {
+        $cb = function($data) use (&$cb) {
             if ($data) {
                 $this->_redisSubscribe->brPoping = 0;
                 $redis_key = $data[0];
                 $package_str = $data[1];
                 $package = json_decode($package_str, true);
                 if (!$package) {
-                    $this->_redisSend->lPush($this->queueFailed, $package_str);
+                    $this->_redisSend->lPush(static::QUEUE_FAILED, $package_str);
                 } else {
                     if (!isset($this->_subscribeQueues[$redis_key])) {
                         // 取消订阅，放回队列
@@ -224,14 +220,14 @@ class Queue
                             \call_user_func($callback, $package['data']);
                         } catch (\Exception $e) {
                             if (++$package['attempts'] > $this->_options['max_attempts']) {
-                                $package['error'] = (string)$e;
+                                $package['error'] = (string) $e;
                                 $this->fail($package);
                             } else {
                                 $this->retry($package);
                             }
                         } catch (\Error $e) {
                             if (++$package['attempts'] > $this->_options['max_attempts']) {
-                                $package['error'] = (string)$e;
+                                $package['error'] = (string) $e;
                                 $this->fail($package);
                             } else {
                                 $this->retry($package);
@@ -242,7 +238,7 @@ class Queue
             }
             if ($this->_subscribeQueues) {
                 $this->_redisSubscribe->brPoping = 1;
-                Timer::add(0.000001, [$this->_redisSubscribe, 'brPop'], [\array_keys($this->_subscribeQueues), 1, $cb], false);
+                Timer::add(0.000001, [$this->_redisSubscribe, 'brPop'], [\array_keys($this->_subscribeQueues), 1, $cb] ,false);
             }
         };
         $this->_redisSubscribe->brPoping = 1;
@@ -255,7 +251,7 @@ class Queue
     protected function retry($package)
     {
         $delay = time() + $this->_options['retry_seconds'] * ($package['attempts']);
-        $this->_redisSend->zAdd($this->queueDelayed, $delay, \json_encode($package));
+        $this->_redisSend->zAdd(static::QUEUE_DELAYED, $delay, \json_encode($package));
     }
 
     /**
@@ -267,7 +263,7 @@ class Queue
             'message' => '队列失败',
             'params'  => var_export($package, true)
         ], 'error');
-        $this->_redisSend->lPush($this->queueFailed, \json_encode($package));
+        $this->_redisSend->lPush(static::QUEUE_FAILED , \json_encode($package));
     }
 
 }
