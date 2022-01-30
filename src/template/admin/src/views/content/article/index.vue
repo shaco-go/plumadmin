@@ -85,7 +85,7 @@
 import CategorySelect from './components/CategorySelect'
 
 export default {
-  name: "article",
+  name: "contentArticle",
   components: {CategorySelect},
   data() {
     return {
