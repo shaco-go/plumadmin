@@ -25,9 +25,9 @@ class Login extends Controller
         $admin = SystemAdminModel::where('username', $data['username'])->find();
         if (!$admin || !password_verify($data['password'], $admin['password']))
             throw new FailException('账号或密码不正确');
-        $data = Token::build($admin['id'], app('http')->getName());
+        $token = Token::build($admin['id'], app('http')->getName());
         trace("{$data['username']} ,用户登录",'op');
-        return $this->success($data);
+        return $this->success($token);
     }
 
     /**
