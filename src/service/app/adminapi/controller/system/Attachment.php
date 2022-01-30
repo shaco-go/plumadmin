@@ -23,6 +23,7 @@ class Attachment extends Controller
             ->autoSearch()
             ->append(['url'])
             ->paginate();
+        trace('获取附件分页','op');
         return $this->success($page);
     }
 
@@ -35,6 +36,7 @@ class Attachment extends Controller
     public function upload()
     {
         $file = AttachmentService::upload();
+        trace('上传附件','op');
         return $this->success($file);
     }
 
@@ -51,6 +53,7 @@ class Attachment extends Controller
             ->check($this->request->param());
         SystemAttachmentModel::whereIn('id', $this->request->param('ids'))
             ->update(['category_id' => $this->request->param('category_id')]);
+        trace('移动附件','op');
         return $this->success('操作成功');
     }
 
@@ -71,6 +74,7 @@ class Attachment extends Controller
             $driver = $v['driver'];
             Filesystem::disk($driver)->delete($path);
         }
+        trace('删除附件','op');
         return $this->success('操作成功');
     }
 }

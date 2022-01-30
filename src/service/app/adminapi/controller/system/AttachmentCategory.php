@@ -22,6 +22,7 @@ class AttachmentCategory extends Controller
         $list = SystemAttachmentCategoryModel::order('sort', 'asc');
         $list = $list->select();
         $tree = Arr::tree($list->toArray());
+        trace('获取附件分类树状列表','op');
         return $this->success($tree);
     }
 
@@ -39,6 +40,7 @@ class AttachmentCategory extends Controller
             ->check($data);
         $data['operator_id'] = $this->userinfo['id'];
         SystemAttachmentCategoryModel::create($data);
+        trace('创建附件分类','op');
         return $this->success('操作成功');
     }
 
@@ -56,6 +58,7 @@ class AttachmentCategory extends Controller
             ->check($data);
         $data['operator_id'] = $this->userinfo['id'];
         SystemAttachmentCategoryModel::update($data);
+        trace('修改附件分类','op');
         return $this->success('操作成功');
     }
 
@@ -77,6 +80,7 @@ class AttachmentCategory extends Controller
         //将图片分类转化未分类
         SystemAttachmentModel::whereIn('parent_id', $ids)
             ->update(['parent_id' => 0]);
+        trace('删除附件分类','op');
         return $this->success('操作成功');
     }
 }

@@ -20,6 +20,7 @@ class Debug extends Controller
         $page = SystemDebugLogModel::autoOrder()
             ->autoSearch()
             ->paginate();
+        trace('获取DEBUG日志分页','op');
         return $this->success($page);
     }
 
@@ -35,6 +36,7 @@ class Debug extends Controller
         if(!$debug)
             throw new FailException('操作失败');
         $debug->delete();
+        trace('删除DEBUG日志','op');
         return $this->success('操作成功');
     }
 
@@ -48,6 +50,7 @@ class Debug extends Controller
     {
         Db::table('system_debug_log')
             ->delete(true);
+        trace('清除DEBUG日志','op');
         return $this->success('操作成功');
     }
 }

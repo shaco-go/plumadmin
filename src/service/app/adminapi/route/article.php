@@ -32,5 +32,6 @@ Route::group('article', function () {
     });
 })->middleware([
     \app\adminapi\middleware\AuthMiddleware::class,
-    \app\adminapi\middleware\PermissionMiddleware::class
+    \app\adminapi\middleware\PermissionMiddleware::class,
+    \app\adminapi\middleware\OperationLogMiddleware::class
 ]);

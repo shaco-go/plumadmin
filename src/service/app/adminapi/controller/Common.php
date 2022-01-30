@@ -19,6 +19,7 @@ class Common extends Controller
             return is_string($e['route']) && !empty($e['route']);
         });
         $routes = array_column($routes, 'route');
+        trace('获取路由表','op');
         return $this->success($routes);
     }
 }

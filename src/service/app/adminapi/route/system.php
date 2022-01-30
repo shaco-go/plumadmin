@@ -105,8 +105,20 @@ Route::group('system', function () {
         // 清除全部
         Route::post('clear','system.Debug/clear');
     });
+
+    // 操作日志
+    Route::group('operation/log',function(){
+        // 分页
+        Route::post('page','system.OperationLog/page');
+        // 删除
+        Route::post('delete','system.OperationLog/delete');
+        // 清除
+        Route::post('clear','system.OperationLog/clear');
+    });
+
 })->middleware([
     \app\adminapi\middleware\AuthMiddleware::class,
-    \app\adminapi\middleware\PermissionMiddleware::class
+    \app\adminapi\middleware\PermissionMiddleware::class,
+    \app\adminapi\middleware\OperationLogMiddleware::class
 ]);
 

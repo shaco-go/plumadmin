@@ -29,6 +29,7 @@ class Userinfo extends Controller
         $this->userinfo
             ->allowField(['nickname', 'avatar'])
             ->save($data);
+        trace('修改用户信息','op');
         return $this->success('操作成功');
     }
 
@@ -44,6 +45,7 @@ class Userinfo extends Controller
             ->scene('password')
             ->check($this->request->param());
         AdminService::updateCurrentPassword($this->request->param('new_password'));
+        trace('修改密码','op');
         return $this->success('操作成功');
     }
 
@@ -88,6 +90,7 @@ class Userinfo extends Controller
         $detail['permissions'] = $permissions;
         $detail->hidden(['role']);
         Attachment::getItem($detail, ['avatar']);
+        trace('获取用户信息','op');
         return $this->success($detail);
     }
 }

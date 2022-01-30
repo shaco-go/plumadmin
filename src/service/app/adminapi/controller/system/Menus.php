@@ -25,6 +25,7 @@ class Menus extends Controller
             ->select()
             ->toArray();
         $tree = Arr::tree($list);
+        trace('获取菜单树状列表','op');
         return $this->success($tree);
     }
 
@@ -40,6 +41,7 @@ class Menus extends Controller
             ->scene('create')
             ->check($this->request->param());
         SystemMenusModel::create($this->request->param());
+        trace('创建菜单','op');
         return $this->success('操作成功');
     }
 
@@ -55,6 +57,7 @@ class Menus extends Controller
             ->scene('update')
             ->check($this->request->param());
         SystemMenusModel::update($this->request->param());
+        trace('修改菜单','op');
         return $this->success('操作成功');
     }
 
@@ -67,6 +70,7 @@ class Menus extends Controller
     public function detail()
     {
         $detail = SystemMenusModel::findOrFail($this->request->param('id'));
+        trace('获取菜单信息','op');
         return $this->success($detail);
     }
 
@@ -84,6 +88,7 @@ class Menus extends Controller
         if ($menus->isEmpty())
             throw new FailException('操作失败');
         $menus->delete();
+        trace('删除菜单','op');
         return $this->success('操作成功');
     }
 }
