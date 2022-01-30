@@ -18,12 +18,12 @@
 
     <!--表格工具-->
     <template #tools>
-      <el-button icon="el-icon-delete" type="danger" size="small" @click="handleClear">全部清除</el-button>
+      <el-button v-permission="'operationLog@clear'" icon="el-icon-delete" type="danger" size="small" @click="handleClear">全部清除</el-button>
     </template>
 
     <!--表格-->
     <template #op="{row}">
-      <el-button type="text" @click="handleDelete(row.id)">删除</el-button>
+      <el-button v-permission="'operationLog@delete'" type="text" @click="handleDelete(row.id)">删除</el-button>
     </template>
 
     <!--详情-->
