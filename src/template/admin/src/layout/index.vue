@@ -7,16 +7,21 @@
         <el-image class="logo" fit="cover" :src="sliderLogo"></el-image>
         <span>{{ sliderTitle }}</span>
       </div>
-      <!--菜单-->
-      <el-menu
+      <el-scrollbar
+        style="height: calc(100vh - 64px)"
+        wrap-style="overflow-x:hidden;"
+      >
+        <!--菜单-->
+        <el-menu
           background-color="#001428"
           text-color="#bbb"
           active-text-color="#fff"
           :default-active="defaultActive"
           @select="selectMenus"
-      >
-        <slider-menus :menus="menus"></slider-menus>
-      </el-menu>
+        >
+          <slider-menus :menus="menus"></slider-menus>
+        </el-menu>
+      </el-scrollbar>
     </el-aside>
 
     <el-container class="layout-main">
