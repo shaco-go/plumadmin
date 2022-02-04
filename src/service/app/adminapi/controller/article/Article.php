@@ -24,7 +24,7 @@ class Article extends Controller
             ->paginate()
             ->toArray();
         Attachment::getItem($page['data'], ['cover']);
-        trace('获取文章分页','op');
+        trace('[文章管理] - [分页]','op');
         return $this->success($page);
     }
 
@@ -42,7 +42,7 @@ class Article extends Controller
             ->check($data);
         Attachment::getId($data['cover']);
         ArticleModel::create($data);
-        trace('新增文章','op');
+        trace('[文章] - [新增]','op');
         return $this->success('操作成功');
     }
 
@@ -58,7 +58,7 @@ class Article extends Controller
             ->scene('update')
             ->check($this->request->param());
         ArticleModel::update($this->request->param());
-        trace('修改文章','op');
+        trace('[文章] - [更新]','op');
         return $this->success('操作成功');
     }
 
@@ -72,7 +72,7 @@ class Article extends Controller
     {
         $detail = ArticleModel::findOrFail($this->request->param('id'));
         Attachment::getItem($detail,['cover']);
-        trace('获取文章详情','op');
+        trace('[文章] - [详情]','op');
         return $this->success($detail);
     }
 
@@ -88,7 +88,7 @@ class Article extends Controller
         if (!$detail)
             throw new FailException('操作失败');
         $detail->delete();
-        trace('删除文章','op');
+        trace('[文章] - [删除]','op');
         return $this->success();
     }
 }

@@ -17,7 +17,7 @@ class Config extends Controller
     {
         $data = $this->request->param('data/a', []);
         SystemConfigModel::setItem('filesystem', $data);
-        trace('设置上传附件配置','op');
+        trace('[附件配置] - [设置]','op');
         return $this->success('操作成功');
     }
 
@@ -32,7 +32,7 @@ class Config extends Controller
         $data = SystemConfigModel::getItem('filesystem');
         //本地的数据,需要动态获取,所以删除掉动态模块
         unset($data['disks']['local']);
-        trace('获取上传附件配置','op');
+        trace('[配置附件] - [获取]','op');
         return $this->success($data);
     }
 
@@ -46,7 +46,7 @@ class Config extends Controller
     {
         $data = $this->request->param('data/a', []);
         SystemConfigModel::setItem('filesystem_valid', $data);
-        trace('设置上传附件规则','op');
+        trace('[附件规则配置] - [设置]','op');
         return $this->success('操作成功');
     }
 
@@ -59,7 +59,7 @@ class Config extends Controller
     public function getAttachmentValidate()
     {
         $data = SystemConfigModel::getItem('filesystem_valid');
-        trace('获取上传附件限制配置','op');
+        trace('[附件规则配置] - [获取]','op');
         return $this->success($data);
     }
 }

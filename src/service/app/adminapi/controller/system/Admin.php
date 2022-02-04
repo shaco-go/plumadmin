@@ -25,7 +25,7 @@ class Admin extends Controller
             ->paginate()
             ->toArray();
         Attachment::getItem($page['data'], ['avatar']);
-        trace('获取管理员分页','op');
+        trace('[管理员] - [分页]','op');
         return $this->success($page);
     }
 
@@ -43,7 +43,7 @@ class Admin extends Controller
             ->check($data);
         Attachment::getId($data['avatar']);
         AdminService::create($data);
-        trace('创建管理员','op');
+        trace('[管理员] - [新增]','op');
         return $this->success('操作成功');
     }
 
@@ -61,7 +61,7 @@ class Admin extends Controller
             ->check($data);
         Attachment::getId($data['avatar']);
         AdminService::update($data);
-        trace('修改管理员','op');
+        trace('[管理员] - [更新]','op');
         return $this->success('操作成功');
     }
 
@@ -77,7 +77,7 @@ class Admin extends Controller
         $detail->hidden(['password']);
         Attachment::getItem($detail, ['avatar']);
         $detail['role_ids'] = Arr::pluck($detail->role,'id');
-        trace('获取管理员详情','op');
+        trace('[管理员] - [详情]','op');
         return $this->success($detail);
     }
 
@@ -93,7 +93,7 @@ class Admin extends Controller
         if (!$detail)
             throw new FailException('操作失败');
         $detail->delete();
-        trace('删除管理员','op');
+        trace('[管理员] - [删除]','op');
         return $this->success('操作成功');
     }
 }

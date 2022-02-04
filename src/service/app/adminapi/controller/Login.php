@@ -26,7 +26,7 @@ class Login extends Controller
         if (!$admin || !password_verify($data['password'], $admin['password']))
             throw new FailException('账号或密码不正确');
         $token = Token::build($admin['id'], app('http')->getName());
-        trace("{$data['username']} ,用户登录",'op');
+        trace("{$data['username']} ,用户登录", 'op');
         return $this->success($token);
     }
 
@@ -38,7 +38,9 @@ class Login extends Controller
      */
     public function logout()
     {
+        $username = $this->userinfo['username'] ?? '';
         Token::invalid(app('http')->getName());
+        trace("$username ,用户登出",'op');
         return $this->success('登出成功');
     }
 

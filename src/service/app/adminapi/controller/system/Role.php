@@ -22,7 +22,7 @@ class Role extends Controller
         $page = SystemRoleModel::autoOrder()
             ->autoSearch()
             ->paginate();
-        trace('获取角色分页','op');
+        trace('[角色] - [分页]','op');
         return $this->success($page);
     }
 
@@ -37,7 +37,7 @@ class Role extends Controller
         $page = SystemRoleModel::autoOrder()
             ->autoSearch()
             ->select();
-        trace('获取角色列表','op');
+        trace('[角色] - [列表]','op');
         return $this->success($page);
     }
 
@@ -53,7 +53,7 @@ class Role extends Controller
             ->scene('create')
             ->check($this->request->param());
         RoleService::create($this->request->param());
-        trace('创建角色','op');
+        trace('[角色] - [新增]','op');
         return $this->success('操作成功');
     }
 
@@ -69,7 +69,7 @@ class Role extends Controller
             ->scene('update')
             ->check($this->request->param());
         RoleService::update($this->request->param());
-        trace('修改角色','op');
+        trace('[角色] - [更新]','op');
         return $this->success('操作成功');
     }
 
@@ -84,7 +84,7 @@ class Role extends Controller
         $detail = SystemRoleModel::findOrFail($this->request->param('id'));
         $detail['rule_ids'] = Arr::pluck($detail->rule, 'id');
         $detail->hidden(['rule']);
-        trace('获取角色详情','op');
+        trace('[角色] - [详情]','op');
         return $this->success($detail);
     }
 
@@ -100,7 +100,7 @@ class Role extends Controller
         if(!$detail)
             throw new FailException('操作失败');
         $detail->delete();
-        trace('删除角色','op');
+        trace('[角色] - [删除]','op');
         return $this->success('操作成功');
     }
 }

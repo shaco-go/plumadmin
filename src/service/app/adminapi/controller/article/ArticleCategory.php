@@ -22,7 +22,7 @@ class ArticleCategory extends Controller
             ->autoOrder()
             ->autoSearch()
             ->paginate();
-        trace('获取文章分类分页','op');
+        trace('[文章管理] - [分页]','op');
         return $this->success($page);
     }
 
@@ -38,7 +38,7 @@ class ArticleCategory extends Controller
             ->autoOrder()
             ->autoSearch()
             ->select();
-        trace('获取文章分类列表','op');
+        trace('[文章分类] - [列表]','op');
         return $this->success($list);
     }
 
@@ -54,7 +54,7 @@ class ArticleCategory extends Controller
             ->scene('create')
             ->check($this->request->param());
         ArticleCategoryModel::create($this->request->param());
-        trace('创建文章分类','op');
+        trace('[文章分类] - [新增]','op');
         return $this->success('操作成功');
     }
 
@@ -70,7 +70,7 @@ class ArticleCategory extends Controller
             ->scene('update')
             ->check($this->request->param());
         ArticleCategoryModel::update($this->request->param());
-        trace('修改文章分类','op');
+        trace('[文章分类] - [更新]','op');
         return $this->success('操作成功');
     }
 
@@ -83,7 +83,7 @@ class ArticleCategory extends Controller
     public function detail()
     {
         $detail = ArticleCategoryModel::findOrFail($this->request->param('id'));
-        trace('获取文章分类详情','op');
+        trace('[文章分类] - [详情]','op');
         return $this->success($detail);
     }
 
@@ -104,7 +104,7 @@ class ArticleCategory extends Controller
         if (!$articles->isEmpty())
             throw new FailException('请删除该分类下的文章后,在继续此操作!');
         $detail->delete();
-        trace('删除文章分类','op');
+        trace('[文章分类] - [删除]','op');
         return $this->success('操作成功');
     }
 }

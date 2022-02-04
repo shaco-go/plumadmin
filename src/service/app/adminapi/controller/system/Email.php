@@ -17,7 +17,7 @@ class Email extends Controller
     public function setConfig()
     {
         SystemConfigModel::setItem('email', input('data/a', []));
-        trace('设置email日志配置','op');
+        trace('[邮箱] - [设置配置]','op');
         return $this->success('操作成功');
     }
 
@@ -30,7 +30,7 @@ class Email extends Controller
     public function getConfig()
     {
         $data = SystemConfigModel::getItem('email');
-        trace('获取email日志配置','op');
+        trace('[邮箱] - [获取配置]','op');
         return $this->success($data);
     }
 
@@ -52,7 +52,7 @@ class Email extends Controller
             $email = \plum\lib\Email::getInstance();
             throw new FailException("发送失败,失败原因:" . $email->email->ErrorInfo);
         }
-        trace('测试email邮件连通性','op');
+        trace('[邮箱] - [测试邮箱连通]','op');
         return $this->success('发送成功');
     }
 }

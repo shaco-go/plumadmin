@@ -23,7 +23,7 @@ class OperationLog extends Controller
             ->each(function ($item) {
                 $item->operator_name = $item->admin?$item->admin['nickname']:'未知';
             });
-        trace('获取操作日志分页','op');
+        trace('[操作日志] - [分页]','op');
         return $this->success($page);
     }
 
@@ -40,7 +40,7 @@ class OperationLog extends Controller
         if(!$info)
             throw new FailException('操作失败');
         $info->delete();
-        trace('删除操作日志','op');
+        trace('[操作日志] - [删除]','op');
         return $this->success('操作成功');
     }
 
@@ -53,7 +53,7 @@ class OperationLog extends Controller
     public function clear()
     {
         Db::table('system_operation_log')->delete(true);
-        trace('清除操作日志','op');
+        trace('[操作日志] - [清除]','op');
         return $this->success('操作成功');
     }
 }
