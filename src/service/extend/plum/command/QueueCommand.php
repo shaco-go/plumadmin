@@ -53,7 +53,7 @@ class QueueCommand extends Command
                 foreach ($queue as $item) {
                     $obj = app()->make($item);
                     $queueClient->subscribe($obj->name(), function ($data) use ($obj) {
-                        call_user_func_array([$obj, 'handler'], [$data]);
+                        call_user_func_array([$obj, 'handle'], [$data]);
                     });
                 }
             };

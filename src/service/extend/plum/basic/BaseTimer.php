@@ -82,7 +82,7 @@ abstract class BaseTimer
             $this->timer();
             //执行任务,且上锁,写入日志
             if ($this->currentTime && $this->expireTime && time() >= $this->currentTime && !$this->isLock()) {
-                $this->handler();
+                $this->handle();
                 $this->lock();
             }
         } catch (\Throwable $e) {
@@ -132,7 +132,7 @@ abstract class BaseTimer
         return "timer_{$name}_lock";
     }
 
-    abstract public function handler();
+    abstract public function handle();
 
     abstract public function name(): string;
 

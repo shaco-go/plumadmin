@@ -6,7 +6,7 @@ use think\facade\Cache;
 
 abstract class BaseQueue
 {
-    abstract public function handler($data);
+    abstract public function handle($data);
 
     abstract public function name(): string;
 
