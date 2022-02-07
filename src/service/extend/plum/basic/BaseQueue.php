@@ -10,7 +10,7 @@ abstract class BaseQueue
 
     abstract public function name(): string;
 
-    public function send($data, $delay = 0)
+    public static function send($data, $delay = 0)
     {
         $redis = Cache::store('redis')->handler();
         $queue_waiting =  '_queue-delayed';
@@ -21,12 +21,12 @@ abstract class BaseQueue
             'time'     => $now,
             'delay'    => 0,
             'attempts' => 0,
-            'queue'    => $this->name(),
+            'queue'    => (new static)->name(),
             'data'     => $data
         ]);
         if ($delay) {
             return $redis->zAdd($queue_delay, $now + $delay, $package_str);
         }
-        return $redis->lPush($queue_waiting . $this->name(), $package_str);
+        return $redis->lPush($queue_waiting . (new static)->name(), $package_str);
     }
 }
