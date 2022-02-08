@@ -25,7 +25,7 @@ class Admin extends Controller
             ->paginate()
             ->toArray();
         Attachment::getItem($page['data'], ['avatar']);
-        trace('[管理员] - [分页]','op');
+        trace('[管理员] - [分页]', 'op');
         return $this->success($page);
     }
 
@@ -43,7 +43,7 @@ class Admin extends Controller
             ->check($data);
         Attachment::getId($data['avatar']);
         AdminService::create($data);
-        trace('[管理员] - [新增]','op');
+        trace('[管理员] - [新增]', 'op');
         return $this->success('操作成功');
     }
 
@@ -61,7 +61,7 @@ class Admin extends Controller
             ->check($data);
         Attachment::getId($data['avatar']);
         AdminService::update($data);
-        trace('[管理员] - [更新]','op');
+        trace('[管理员] - [更新]', 'op');
         return $this->success('操作成功');
     }
 
@@ -76,8 +76,8 @@ class Admin extends Controller
         $detail = SystemAdminModel::findOrFail($this->request->param('id'));
         $detail->hidden(['password']);
         Attachment::getItem($detail, ['avatar']);
-        $detail['role_ids'] = Arr::pluck($detail->role,'id');
-        trace('[管理员] - [详情]','op');
+        $detail['role_ids'] = Arr::pluck($detail->role, 'id');
+        trace('[管理员] - [详情]', 'op');
         return $this->success($detail);
     }
 
@@ -92,8 +92,11 @@ class Admin extends Controller
         $detail = SystemAdminModel::find($this->request->param('id'));
         if (!$detail)
             throw new FailException('操作失败');
+        //超级管理防止误删
+        if ($detail['is_super'])
+            throw new FailException('删除失败,该用户为超级管理员无法删除!');
         $detail->delete();
-        trace('[管理员] - [删除]','op');
+        trace('[管理员] - [删除]', 'op');
         return $this->success('操作成功');
     }
 }
