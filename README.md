@@ -37,7 +37,20 @@
 * 定时器
 * 队列
 
-## 提问
+## 预览
+![dashboard](http://doc.plumcloud.top/preview/dashboard.png)
+![上传设置](http://doc.plumcloud.top/preview/上传设置.png)
+![个人设置](http://doc.plumcloud.top/preview/个人设置.png)
+![分类管理](http://doc.plumcloud.top/preview/分类管理.png)
+![操作日志](http://doc.plumcloud.top/preview/操作日志.png)
+![文章管理](http://doc.plumcloud.top/preview/文章管理.png)
+![用户管理](http://doc.plumcloud.top/preview/用户管理.png)
+![菜单](http://doc.plumcloud.top/preview/菜单.png)
+![角色](http://doc.plumcloud.top/preview/角色.png)
+![邮件通知](http://doc.plumcloud.top/preview/邮件通知.png)
+![错误日志](http://doc.plumcloud.top/preview/错误日志.png)
+
+## 交流
 有什么问题可以issues,或者微信,qq群
  <div>
       <img width="200px" src="http://file.huamzl.wang/tuchuang/20221221730/nx70zvz3r5_39b0baf031ba19e0c9dd73403b8ac45.jpg" />
