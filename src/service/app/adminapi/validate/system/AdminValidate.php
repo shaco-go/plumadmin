@@ -18,7 +18,7 @@ class AdminValidate extends Validate
         'refresh_token'    => 'require',
         'old_password'     => 'require',
         'new_password'     => 'require|different:old_password',
-        'confirm_password' => 'require|confirm:password',
+        'confirm_password' => 'require|confirm:new_password',
     ];
 
     protected $message = [
