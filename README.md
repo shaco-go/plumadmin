@@ -1,4 +1,4 @@
-![LOGO](http://file.huamzl.wang/tuchuang/20221211449/u8of24f87i_plumadmin_logo_big.png)
+![LOGO](http://file.huamzl.wang/tuchuang/20221211449/u8of24f87i_plumadmin_logo_big.png) 
 
 <p align="center"><code>PlumAdmin</code> 基于Thinkphp6 & VUE2开发的后台管理框架(内置队列,定时器,支持windows)</p>
    <p align="center">
